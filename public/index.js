@@ -21,5 +21,23 @@ async function main() {
     const stocks = [GME, MSFT, DIS, BTNX];
     console.log(mockData)
 
+
+    //new time Chart
+    new Chart(timeChartCanvas.getContext('2d'), {
+        type: 'line',
+        data: {
+            //defining labels for our chart
+            //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: stocks[0].values.map(value => value.dateTime),
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)'
+            }]
+        }
+    });
+    
 }
+//console.log(stocks[0].values)
 main()
