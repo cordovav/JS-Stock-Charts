@@ -13,6 +13,15 @@ function getColor(stock){
         return 'rgba(166, 43, 158, 0.7)';
     }
 }
+function findHighest(values){
+    let highest = 0;
+    values.forEach(value =>{
+        if(parseFloat(value.high) > highest){
+            highest = parseFloat(value.high)
+        }
+    })
+    return highest;
+}
 
 async function main() {
 
@@ -29,14 +38,16 @@ async function main() {
 /*  let GME = result.GME;
     let MSFT = result.MSFT;
     let DIS = result.DIS;
-    let BTNX = result.BTNX; 
+    let BTNX = result.BNTX; 
 */
 
     const { GME, MSFT, DIS, BNTX } = result;
     //const { GME, MSFT, DIS, BTNX } = mockData;
     const stocks = [GME, MSFT, DIS, BNTX];
-    console.log(result)
+    //console.log(result)
     //console.log(mockData)
+
+    stocks.forEach( stock => stock.values.reverse())
 
 
     //new time Chart
@@ -44,7 +55,7 @@ async function main() {
         type: 'line',
         data: {
             //defining labels for our chart
-            labels: stocks[0].values.map(value => value.dateTime),
+            labels: stocks[0].values.map(value => value.datetime),
             //defining new label, data, background and border color for chart
             datasets: stocks.map(stock => ({ 
                 label: stock.meta.symbol,
@@ -54,6 +65,27 @@ async function main() {
         }))
         }
     });
+
+    //highestPrice Bar Chart
+    new Chart(highestPriceChartCanvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+            //defining labels for our bar chart
+            labels: stocks.map(stock => stock.meta.symbol),
+            //defining new label, data, background and border color for bar chart
+            datasets: [{
+                label: "Highest Price",
+                data: stocks.map(stock =>(findHighest(stock.values))),
+                backgroundColor: stocks.map(stock => (
+                    getColor(stock.meta.symbol)
+                )),
+                borderColor:stocks.map(stock => (
+                    getColor(stock.meta.symbol)
+                )),
+            }]
+        }
+    });
+
     
 }
 
