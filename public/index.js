@@ -6,8 +6,16 @@ async function main() {
 
 
 //created fetch request for twelvedata documentation
-    const rsponse = await fetch(`https://api.twelvedata.com/time_series?symbol=AAPL,EUR/USD,ETH/BTC:Huobi,TRP:TSX&interval=1min&apikey=3bd179df2df44c3a828326eaecc1e655`);
+    const response = await fetch(`https://api.twelvedata.com/time_series?symbol=GME,MSFT,DIS,BNTX&interval=1day&apikey=3bd179df2df44c3a828326eaecc1e655`);
+    const result = await response.json();
+    //turned objects into an array
+    let GME = result.GME;
+    let MSFT = result.MSFT;
+    let DIS = result.DIS;
+    let BTNX = result.BTNX;
 
+    const stocks = [GME, MSFT, DIS, BTNX];
+    console.log(result)
 
 }
 
