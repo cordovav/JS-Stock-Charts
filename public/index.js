@@ -1,3 +1,19 @@
+//function used to define background and border color
+function getColor(stock){
+    if(stock === 'GME'){
+        return 'rgba(61, 161, 61, 0.7)';
+    }
+    if(stock === 'MSFT'){
+        return 'rgba(209, 4, 25, 0.7)';
+    }
+    if(stock === 'DIS'){
+        return 'rgba(18, 4, 209, 0.7)';
+    }
+    if(stock === 'BNTX'){
+        return 'rgba(166, 43, 158, 0.7)';
+    }
+}
+
 async function main() {
 
     const timeChartCanvas = document.querySelector('#time-chart');
@@ -6,8 +22,8 @@ async function main() {
 
 
 //created fetch request for twelvedata documentation
-  //  const response = await fetch(`https://api.twelvedata.com/time_series?symbol=GME,MSFT,DIS,BNTX&interval=1day&apikey=3bd179df2df44c3a828326eaecc1e655`);
-   // const result = await response.json();
+    const response = await fetch(`https://api.twelvedata.com/time_series?symbol=GME,MSFT,DIS,BNTX&interval=30min&apikey=3bd179df2df44c3a828326eaecc1e655`);
+    const result = await response.json();
     //turned objects into an array
     
 /*  let GME = result.GME;
@@ -16,10 +32,11 @@ async function main() {
     let BTNX = result.BTNX; 
 */
 
-    //const { GME, MSFT, DIS, BNTX } = result;
-    const { GME, MSFT, DIS, BTNX } = mockData;
-    const stocks = [GME, MSFT, DIS, BTNX];
-    console.log(mockData)
+    const { GME, MSFT, DIS, BNTX } = result;
+    //const { GME, MSFT, DIS, BTNX } = mockData;
+    const stocks = [GME, MSFT, DIS, BNTX];
+    console.log(result)
+    //console.log(mockData)
 
 
     //new time Chart
@@ -27,17 +44,18 @@ async function main() {
         type: 'line',
         data: {
             //defining labels for our chart
-            //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
             labels: stocks[0].values.map(value => value.dateTime),
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)'
-            }]
+            //defining new label, data, background and border color for chart
+            datasets: stocks.map(stock => ({ 
+                label: stock.meta.symbol,
+                data: stock.values.map(value => parseFloat(value.high)),
+                backgroundColor: getColor(stock.meta.symbol),
+                borderColor: getColor(stock.meta.symbol),
+        }))
         }
     });
     
 }
-//console.log(stocks[0].values)
+
+
 main()
