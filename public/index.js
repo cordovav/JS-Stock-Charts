@@ -6,17 +6,20 @@ async function main() {
 
 
 //created fetch request for twelvedata documentation
-    const response = await fetch(`https://api.twelvedata.com/time_series?symbol=GME,MSFT,DIS,BNTX&interval=1day&apikey=3bd179df2df44c3a828326eaecc1e655`);
-    const result = await response.json();
+  //  const response = await fetch(`https://api.twelvedata.com/time_series?symbol=GME,MSFT,DIS,BNTX&interval=1day&apikey=3bd179df2df44c3a828326eaecc1e655`);
+   // const result = await response.json();
     //turned objects into an array
-    let GME = result.GME;
+    
+/*  let GME = result.GME;
     let MSFT = result.MSFT;
     let DIS = result.DIS;
-    let BTNX = result.BTNX;
+    let BTNX = result.BTNX; 
+*/
 
+    //const { GME, MSFT, DIS, BNTX } = result;
+    const { GME, MSFT, DIS, BTNX } = mockData;
     const stocks = [GME, MSFT, DIS, BTNX];
-    console.log(result)
+    console.log(mockData)
 
 }
-
 main()
